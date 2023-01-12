@@ -1,0 +1,6 @@
+[submodule "M-Beer"]
+	path = M-Beer
+	url = https://github.com/MMarsland/M-Beer.git
+[submodule "Connect4-ML"]
+	path = Connect4-ML
+	url = https://github.com/MMarsland/Connect4-ML.git
