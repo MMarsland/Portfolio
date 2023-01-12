@@ -4,3 +4,24 @@
 [submodule "Connect4-ML"]
 	path = Connect4-ML
 	url = https://github.com/MMarsland/Connect4-ML.git
+[submodule "Craps-Simulator"]
+	path = Craps-Simulator
+	url = https://github.com/MMarsland/Craps-Simulator.git
+[submodule "Cryptomatic"]
+	path = Cryptomatic
+	url = https://github.com/MMarsland/Cryptomatic.git
+[submodule "FlopAI"]
+	path = FlopAI
+	url = https://github.com/MMarsland/FlopAI.git
+[submodule "PuzzleSolver"]
+	path = PuzzleSolver
+	url = https://github.com/MMarsland/PuzzleSolver.git
+[submodule "Squash-Scorekeeper"]
+	path = Squash-Scorekeeper
+	url = https://github.com/MMarsland/Squash-Scorekeeper.git
+[submodule "The-Cash-Game"]
+	path = The-Cash-Game
+	url = https://github.com/MMarsland/The-Cash-Game.git
+[submodule "Tic-Tac-Toe-ML"]
+	path = Tic-Tac-Toe-ML
+	url = https://github.com/MMarsland/Tic-Tac-Toe-ML.git
