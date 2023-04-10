@@ -1,0 +1,86 @@
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="style.css">
+        <script src="script.js"></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    </head>
+    <body onload="startApp()">
+        
+        <div id="wrapper">
+            <div id="menu-screen">
+                <div id="title">
+                    <div id="title-top">The</div>
+                    <div id="title-bottom">Cash Game</div> 
+                </div>
+                <button id="start-button" onclick="startGameFromMenu()">Start Game</button>
+                <div id="number-of-dots-selector-box">
+                    Number of Dots:</br>
+                    <input id="number-of-dots-selector" type="number" name="num_of_dots" min="2" max="10" value="2">
+                </div>
+                <div id="difficulty-selector-box">
+                    Difficulty:</br>
+                    <select id="difficulty-selector">
+                        <option value="easy">Easy</option>
+                        <option value="medium">Medium</option>
+                        <option value="hard">Hard</option>
+                        <option value="impossible">Probably Impossible</option>
+                    </select>
+                </div>
+                <!--<button id="example-button" onclick="launchExampleGame()">Play Example Game</button>-->
+            </div>
+            <div id="game-screen">
+                <div id="game-board">
+                </div>
+                <svg id="connection-svg" height="500px" width="1300px">
+                </svg>
+            </div>
+            <div id="example-game-screen">
+                <div class="node" style="left: 350px; top: 400px"><div class="leftHalf"onclick="callTake(1);"></div><div class="rightHalf"  onclick="callGive(1);"></div></div><!--4-->
+                <div class="node" style="left: 700px; top: 420px"><div class="leftHalf"onclick="callTake(2);"></div><div class="rightHalf"  onclick="callGive(2);"></div></div><!---2-->
+                <div class="node" style="left: 150px; top: 600px"><div class="leftHalf"onclick="callTake(3);"></div><div class="rightHalf"  onclick="callGive(3);"></div></div><!--2-->
+                <div class="node" style="left: 150px; top: 900px"><div class="leftHalf"onclick="callTake(4);"></div><div class="rightHalf"  onclick="callGive(4);"></div></div><!--8-->
+                <div class="node" style="left: 450px; top: 620px"><div class="leftHalf"onclick="callTake(5);"></div><div class="rightHalf"  onclick="callGive(5);"></div></div><!---1-->
+                <div class="node" style="left: 430px; top: 890px"><div class="leftHalf"onclick="callTake(6);"></div><div class="rightHalf"  onclick="callGive(6);"></div></div><!--1-->
+                <div class="node" style="left: 750px; top: 800px"><div class="leftHalf"onclick="callTake(7);"></div><div class="rightHalf"  onclick="callGive(7);"></div></div><!--3-->
+                <div class="node" style="left: 600px; top: 1030px"><div class="leftHalf"onclick="callTake(8);"></div><div class="rightHalf"  onclick="callGive(8);"></div></div><!---4-->
+                <div class="node" style="left: 330px; top: 1200px"><div class="leftHalf"onclick="callTake(9);"></div><div class="rightHalf"  onclick="callGive(9);"></div></div><!---5-->
+                <div class="node" style="left: 670px; top: 1300px"><div class="leftHalf" onclick="callTake(10);"></div><div class="rightHalf" onclick="callGive(10);"></div></div><!---2-->
+                <div class="node" style="left: 400px; top: 1500px" ><div class="leftHalf" onclick="callTake(11);"></div><div class="rightHalf" onclick="callGive(11);"></div></div><!---3-->
+                <svg height="3000px" width="3000px" style="background:#dba143">
+                    <polyline points="350, 400 450, 620" style="fill:none;stroke:black;stroke-width:6"></polyline>
+                    <polyline points="350, 400 330, 1200" style="fill:none;stroke:black;stroke-width:6"></polyline>
+                    <polyline points="700, 420 430, 890" style="fill:none;stroke:black;stroke-width:6"></polyline>
+                    <polyline points="700, 420 750, 800" style="fill:none;stroke:black;stroke-width:6"></polyline>
+
+                    <polyline points="430, 890 150, 900" style="fill:none;stroke:black;stroke-width:6"></polyline>
+                    <polyline points="150, 900 150, 600" style="fill:none;stroke:black;stroke-width:6"></polyline>
+                    <polyline points="150, 600 450, 620" style="fill:none;stroke:black;stroke-width:6"></polyline>
+                    <polyline points="450, 620 750, 800" style="fill:none;stroke:black;stroke-width:6"></polyline>
+
+                    <polyline points="430, 890 600, 1030" style="fill:none;stroke:black;stroke-width:6"></polyline>
+                    <polyline points="600, 1030 400, 1500" style="fill:none;stroke:black;stroke-width:6"></polyline>
+                    <polyline points="400, 1500 330, 1200" style="fill:none;stroke:black;stroke-width:6"></polyline>
+                    <polyline points="400, 1500 670, 1300" style="fill:none;stroke:black;stroke-width:6"></polyline>
+                    <polyline points="670, 1300 750, 800" style="fill:none;stroke:black;stroke-width:6"></polyline>
+                </svg>;
+                <div id="1" class="value" style="left: 350px; top: 400px" ></div><!--4-->
+                <div id="2" class="value" style="left: 700px; top: 420px" ></div><!---2-->
+                <div id="3" class="value" style="left: 150px; top: 600px" ></div><!--2-->
+                <div id="4" class="value" style="left: 150px; top: 900px" ></div><!--8-->
+                <div id="5" class="value" style="left: 450px; top: 620px" ></div><!---1-->
+                <div id="6" class="value" style="left: 430px; top: 890px" ></div><!--1-->
+                <div id="7" class="value" style="left: 750px; top: 800px" ></div><!--3-->
+                <div id="8" class="value" style="left: 600px; top: 1030px" ></div><!---4-->
+                <div id="9" class="value" style="left: 330px; top: 1200px" ></div><!---5-->
+                <div id="10" class="value" style="left: 670px; top: 1300px" ></div><!---2-->
+                <div id="11" class="value" style="left: 400px; top: 1500px" ></div><!---3-->
+            </div>
+            <div id="victory-screen">
+                <div id="victory-text">
+                        Congratulations!<br>You achieved victory in <strong id="victory-text-p"></strong> moves! 
+                </div>
+            </div>
+        </div>
+
+    </body>
+</html>

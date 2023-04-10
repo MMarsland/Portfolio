@@ -1,0 +1,165 @@
+html, body
+{
+    padding: 0;
+    margin: 0;
+    height: 100%;
+    width: 100%;
+}
+#main
+{
+    position: relative;
+    display: flex;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    justify-content: center;
+    min-width: 500px;
+    cursor: pointer;
+    flex-direction: column;
+}
+
+#playArea {
+  display: flex;
+  height: 118px;
+  width: 1000px;
+  align-items: center;
+  flex-direction: column;
+  background: gray;
+  font-size:70px;
+  justify-content: center;
+  display:none;
+}
+
+#titleBar {
+  display: flex;
+  height: 38px;
+  width: 1000px;
+  align-items: center;
+  flex-direction: row;
+  background: gray;
+  font-size:70px;
+  justify-content: center;
+  border: 1px solid black;
+  border-right: 0px;
+
+}
+
+#board {
+  display: flex;
+  height: 79px;
+  width: 1000px;
+  align-items: center;
+  flex-direction: row;
+  background: gray;
+  font-size:70px;
+  justify-content: center;
+  border: 1px solid black;
+  border-top: 0px;
+  border-right: 0px;
+}
+
+.title {
+  display: flex;
+  height: 38px;
+  width: 99px;
+  align-items: center;
+  flex-direction: column;
+  background: red;
+  font-size: 34px;
+  border-right: 1px solid black;
+}
+
+.display {
+  display: flex;
+  height: 79px;
+  width: 99px;
+  align-items: center;
+  flex-direction: column;
+  background: yellow;
+  font-size:30px;
+  border-right: 1px solid black;
+}
+
+.hidden {
+  color: gray;
+  background: gray;
+}
+
+#console {
+  display:flex;
+  flex-direction: row;
+  margin-bottom:10px;
+}
+
+#reset {
+  margin-left:10px;
+}
+
+#infoBox {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  height:500px;
+  width:500px;
+  background:#7f8000;
+}
+
+
+.square {
+  position:relative;
+  height:50px;
+  width:50px;
+  background:#7f8000;
+}
+
+.triangle-bottom {
+  position:absolute;
+  top:37.5px;
+  left:12.5px;
+  width: 0;
+  height: 0;
+  border-left: 12.5px solid transparent;
+  border-right: 12.5px solid transparent;
+  z-index: 1;
+}
+
+.triangle-top {
+  position:absolute;
+  left:12.5px;
+  width: 0;
+  height: 0;
+  border-left: 12.5px solid transparent;
+  border-right: 12.5px solid transparent;
+  z-index: 1;
+}
+
+.triangle-right {
+  position:absolute;
+  left: 37.5px;
+  top:12.5px;
+  width: 0;
+  height: 0;
+  border-top: 12.5px solid transparent;
+  border-bottom: 12.5px solid transparent;
+  z-index: 1;
+}
+
+.triangle-left {
+  position:absolute;
+  top:12.5px;
+  width: 0;
+  height: 0;
+  border-top: 12.5px solid transparent;
+  border-bottom: 12.5px solid transparent;
+  z-index: 1;
+}
+
+.arrow {
+  display: flex;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  align-items: center;
+  justify-content:center;
+  z-index: 0;
+}

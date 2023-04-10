@@ -1,0 +1,36 @@
+<!DOCTYPE HTML>
+
+<html>
+    <head>
+      <link rel="stylesheet" type="text/css" href="styles.css">
+      <script src="Script.js"></script>
+      <!--<script src="Minimax.js"></script>-->
+    </head>
+    <body onload="onload()">
+        <div id="main">
+          <div id="menu">
+            <div class="title">Connect4</div>
+            <div id="options-area">
+              <button id="human" class="options-button" onclick="start('human')" title="Play against yourself">Human</button>
+              <button id="minimax" class="options-button" onclick="start('minimax')" title="Minimax Depth 8">Minimax</button>
+              <button id="q-tables" class="options-button" onclick="start('q-tables')" disabled title="Incomplete Implementation">Q-Tables</button>
+              <button id="neuralNetwork" class="options-button" onclick="start('neuralNetwork')" disabled title="Incomplete Implementation">Neural Network</button>
+            </div>
+          </div>
+          <div id="game-frame" class="frame hidden">
+            <div id="infoArea">
+              <div id="buttons">
+                <button id="back" class="button" onclick="back()">Back to Menu</button>
+                <button id="reset" class="button" onclick="reset()">Reset</button>
+                <button id="play-second" class="button hidden" onclick="playSecond()">Play Second</button>
+              </div>
+              <div id="info">
+                <div id="nextTurn">Next Player: Blue</div>
+                <div id="thinkingArea"></div>
+              </div>
+            </div>
+            <div id="playArea"></div>
+          </div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,360 @@
+html, body 
+{
+    padding: 0;
+    margin: 0;
+}
+#main 
+{
+    background: blue;
+    height: 100%;
+    width: 100%;
+}
+#boardArea
+{
+    background: #009933;
+    background-image: url("images/CTNew.png");
+    background-repeat: no-repeat;
+    background-size: 900px 465px;
+    position:absolute;
+    top: 0px;
+    width: 80%;
+    height: 80%;
+}
+.point
+{
+    height: 50px;
+    width: 50px;
+    background-image: url("images/point.png");
+    background-repeat: no-repeat;
+    background-size: 50px 50px;
+    position:absolute;
+}
+#pointOn4
+{
+    top: 40px;
+    left: 249px;
+}
+#pointOn5
+{
+    top: 40px;
+    left: 328px;
+}
+#pointOn6
+{
+    top: 40px;
+    left: 407px;
+}
+#pointOn8
+{
+    top: 40px;
+    left: 486px;
+}
+#pointOn9
+{
+    top: 40px;
+    left: 565px;
+}
+#pointOn10
+{
+    top: 40px;
+    left: 644px;
+}
+
+.contextMenu
+{
+    position: absolute;
+    height:66px;
+    width:200px;
+    background: red;
+    z-index:2;
+}
+
+.contextMenuItem
+{
+    height:33px;
+    width:200px;
+    background:purple;
+    text-align: center;
+    font-size:18px;
+    padding: 6px;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+
+.contextMenu:last-child
+{
+    background:blue;
+}
+
+.hidden
+{
+    display: none;
+}
+
+
+
+
+
+
+
+
+
+#rollArea
+{
+    background: red;
+    position: absolute;
+    right: 0px;
+    width: 20%;
+    height: 100%;
+}
+#playerArea
+{
+    background: yellow;
+    position: absolute;
+    bottom: 0px;
+    width: 80%;
+    height: 20%;
+}
+#logContainer
+{
+    
+    height: 100px;
+    width:300px;
+    position: relative;
+    top:5px;
+    left: 10px;
+    overflow-y: hidden;
+    overflow-x: hidden;
+    
+}
+#logTitle
+{
+    margin: 0px;
+    position: relative;
+    left: 10px;
+    text-decoration: underline;
+    width:200px;
+}
+#log
+{
+    height: 100px;
+    width: 320px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    padding-right: 20px;
+}
+#log > p 
+{
+    margin: 0px;
+}
+#playerAreaDevider
+{
+    height:115px;
+    width: 5px;
+    background: green;
+    position: absolute;
+    left: 350px;
+    top: 5px;
+}
+#playerStats
+{
+    position: absolute;
+    left: 350px;
+    top: 5px;
+    background: purple;
+    height:115px;
+    width: 400px;
+
+}
+#nameTitle, #moneyTitle
+{
+    text-decoration: underline;
+    font-weight: bold;
+}
+#name
+{
+    margin-bottom: 5px;
+}
+#money::before
+{
+    content: "$";
+}
+#money
+{
+    font-size: 30px;
+    font-weight: bolder;
+
+}
+
+
+
+
+
+#rollDiceButton
+{
+    height: 30px;
+    width: 100px;
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translate(-50%);
+}
+#rollHistoryContainer
+{
+    height:550px;
+    width:150px;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%);
+    overflow-y: hidden;
+    overflow-x: hidden;
+}
+#rollHistoryContainer > h2 
+{
+    margin: 5px;
+    text-align: center;
+}
+#rollHistory
+{
+    background: orange;
+    height: 510px;
+    width: 170px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    padding-right: 20px;
+    position: relative;
+}
+.rollHistoryItem
+{
+    display: inline-block;
+    height: 50px;
+}
+.rollHistoryItem > div
+{
+    display: inline-block;
+    height: 40px;
+    width: 40px;
+    margin: 5px;
+    background-repeat: no-repeat;
+    background-size: 40px 40px;
+}
+.rollHistoryItem > h1
+{
+    display: inline-block;
+    height: 40px;
+    width: 40px;
+    margin: 5px;
+    text-align: center;
+    position: relative;
+    top: -16px;
+}
+
+
+
+
+
+
+
+
+/* Bet Button Areas */
+#placeBet4
+{
+    height:79px;
+    width: 77px;
+    position: absolute;
+    top: 53px;
+    left: 237px;
+    background:blue;
+    opacity: 0.3;
+}
+#placeBet5
+{
+    height:79px;
+    width: 77px;
+    position: absolute;
+    top: 53px;
+    left: 316px;
+    background:blue;
+    opacity: 0.3;
+}
+#placeBet6
+{
+    height:79px;
+    width: 77px;
+    position: absolute;
+    top: 53px;
+    left: 395px;
+    background:blue;
+    opacity: 0.3;
+}
+#placeBet8
+{
+    height:79px;
+    width: 77px;
+    position: absolute;
+    top: 53px;
+    left: 474px;
+    background:blue;
+    opacity: 0.3;
+}
+#placeBet9
+{
+    height:79px;
+    width: 77px;
+    position: absolute;
+    top: 53px;
+    left: 553px;
+    background:blue;
+    opacity: 0.3;
+}
+#placeBet10
+{
+    height:79px;
+    width: 77px;
+    position: absolute;
+    top: 53px;
+    left: 632px;
+    background:blue;
+    opacity: 0.3;
+}
+#passLineBottom
+{
+    height: 47px;
+    width: 478px;
+    position: absolute;
+    top: 357px;
+    left: 316px;
+    background:blue;
+    opacity: 0.3;
+}
+#passLineSide
+{
+    height: 233px;
+    width: 46px;
+    position: absolute;
+    top: 78px;
+    left: 840px;
+    background:blue;
+    opacity: 0.3;
+}
+#fieldBet
+{
+    height: 77px;
+    width: 393px;
+    position:absolute;
+    top: 226px;
+    left: 317px;
+    background:blue;
+    opacity: 0.3;
+}
+
+
+.chips
+{
+    height: 40px;
+    width: 40px;
+    background-image: url("images/chip.png");
+    border-radius: 50%;
+    display: inline-block;
+    position: absolute;
+}

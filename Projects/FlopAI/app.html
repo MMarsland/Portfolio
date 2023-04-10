@@ -1,0 +1,83 @@
+<!DOCTYPE HTML>
+
+<html>
+    <head>
+      <link rel="stylesheet" type="text/css" href="styles/mainStyles.css">
+      <script src="resources/Adjectives.js"></script>
+      <script src="resources/Maps.js"></script>
+      <script src="resources/Names.js"></script>
+      <script src="resources/Default.js"></script>
+
+
+      <script src="scripts/AI.js"></script>
+      <script src="scripts/App.js"></script>
+      <script src="scripts/Coach.js"></script>
+      <script src="scripts/Coord.js"></script>
+      <script src="scripts/Matrix.js"></script>
+      <script src="scripts/NeuralNetwork.js"></script>
+      <script src="scripts/Modal.js"></script>
+      <script src="scripts/Map.js"></script>
+      <script src="scripts/MapManager.js"></script>
+      <script src="scripts/Game.js"></script>
+      <script src="scripts/System.js"></script>
+      <script src="scripts/Block.js"></script>
+      <script src="scripts/Board.js"></script>
+      <script src="scripts/Brain.js"></script>
+      <script src="scripts/Decoder.js"></script>
+      <script src="scripts/Direction.js"></script>
+      <script src="scripts/Player.js"></script>
+      <script src="scripts/Position.js"></script>
+      <script src="scripts/tests.js"></script>
+      <script src="scripts/mainScript.js"></script>
+
+
+    </head>
+    <body onload="startUp()">
+        <div id="main">
+          <div id="welcome" class="frame">
+            <h1 id="title">FLOP AI</h1>
+            <h3 id="play" class="welcomeOption pulse hidden" onclick="app.play()">PLAY</h3> <!-- disabledPlay -->
+            <h3 id="default" class="welcomeOption pulse" onclick="app.startDefault()">START DEFAULT</h3>
+
+            <h3 class="welcomeOption" onclick="document.getElementById('gameFileInput').click()">Upload a Game File</h3>
+            <input id="gameFileInput" class="hidden" type="file" onchange="app.readGameFile()"/>
+
+            <h3  class="welcomeOption" onclick="app.resetToDefault()">Reset to Default Game File</h3>
+            <h3  class="welcomeOption" onclick="app.saveGame()">Quick Save</h3>
+            <h3  class="welcomeOption" onclick="app.saveAs()">Save As</h3>
+            <h3  id="sessionName" >Session Name: Default</h3>
+
+          </div>
+          <div id="home" class="hidden frame">
+            <h1 id="title">FLOP AI</h1>
+            <div id="levelArea">
+              <div class="arrowsArea"><div class="arrow-left disabled" onclick="mapManager.leftArrow()"></div></div>
+              <div class="levelPaneArea">
+                <!-- Poplated by the Map Manager -->
+              </div>
+              <div class="arrowsArea"><div class="arrow-right" onclick="mapManager.rightArrow()"></div></div>
+            </div>
+            <!--<h3 class="welcomeOption" onclick="app.goToLevelDesigner()">New Level</h3>-->
+            <h3 class="back" onclick="app.back()">Back</h3>
+          </div>
+
+          <div id="board" class="hidden frame">
+            <div id="playArea">
+            </div>
+            <div id="sidebar">
+                <p id="moveNum">Moves: 0</p>
+                <div id="infoArea">
+                  <p id="brainName"></p>
+                  <p id="brainTraits"></p>
+                </div>
+                <h4 class="editButtons hidden" onclick="mapManager.quickSave()">Quick Save</h4>
+                <h4 class="editButtons hidden" onclick="mapManager.saveAs()">Save As</h4>
+                <h4 class="editButtons hidden" onclick="mapManager.delete()">Delete</h4>
+                <h4 id="editDone" onclick="mapManager.editDone()">Edit</h4>
+                <h3 class="back" onclick="app.back()">Back</h3>
+            </div>
+          </div>
+          <div id="victory" class="hidden frame"><h1>Congratulations!</h1><h1 id="victoryMoveNum">Moves: 0</h1><h3 class="back" onclick="app.back()">Back</h3></div>
+        </div>
+    </body>
+</html>

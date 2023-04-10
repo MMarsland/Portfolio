@@ -1,0 +1,57 @@
+<!DOCTYPE HTML>
+
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="style.css">
+        <script src="script.js"></script>
+    </head>
+    <body onload="startGame()">
+        <div id="main">
+            <div id="boardArea">
+                <div id="placeBet4" onclick="placeBetOn4()"></div>
+                <div id="placeBet5" onclick="placeBetOn5()"></div>
+                <div id="placeBet6" onclick="placeBetOn6()"></div>
+                <div id="placeBet8" onclick="placeBetOn8()"></div>
+                <div id="placeBet9" onclick="placeBetOn9()"></div>
+                <div id="placeBet10" onclick="placeBetOn10()"></div>
+                <div id="passLineSide"></div>
+                <div id="passLineBottom" onclick="placePassLineBetOnBottom()"></div>  
+                <div id="fieldBet" onclick="placeFieldBet()"></div>
+            </div>
+            <div id="rollArea">
+                <div id="rollHistoryContainer">      
+                    <h2>Roll History</h2>
+                    <div id="rollHistory">
+                        
+                    </div>
+                </div>
+
+
+                <div id="rollDice">
+                    <button id="rollDiceButton">Roll the Dice!</button>
+                </div>
+            
+            </div>
+            <div id="playerArea">
+                <p id="logTitle"><strong>Game History</strong></p>
+                <div id="logContainer">
+                    <div id="log">
+                        
+                    </div>
+                </div>
+                <div id="playerAreaDevider"></div>
+                <div id="playerStats">
+                    <div id=nameTitle>Name</div>
+                    <div id=name>
+
+                    </div>
+                    <div id="moneyTitle">Money</div>
+                    <div id="money">
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

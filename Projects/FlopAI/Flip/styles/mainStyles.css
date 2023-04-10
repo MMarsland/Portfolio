@@ -1,0 +1,36 @@
+html, body
+{
+    padding: 0;
+    margin: 0;
+    height: 100%;
+    width: 100%;
+}
+
+#main
+{
+    position: relative;
+    display: flex;
+    align-items: center;
+    background: gray;
+    height: 100%;
+    width: 100%;
+    justify-content: center;
+    min-width: 500px;
+    cursor: grab;
+}
+
+#board
+{
+  position: relative;
+  background: black;
+}
+
+.block
+{
+  display: flex;
+  position: absolute;
+  height: 50px;
+  width: 50px;
+  border: 1px solid darkgray;
+  box-sizing: border-box;
+}

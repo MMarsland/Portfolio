@@ -1,0 +1,348 @@
+<!--
+    --- The Cryptomatic 69---
+    @author Michael Marsland (For Trevor Ryan Johns) December 14th, 2018
+
+    "Merry Christmas and Happy Birthday. May the big brother state never take away your ability to scheme and plot."
+-->
+
+<!-- Version 4.1 -->
+
+
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <style>
+            body {
+                font-family: "Open sans", "Segoe UI", "Segoe WP", Helvetica, Arial, sans-serif;
+                color: #7F8C9A;
+                background: #FCFDFD;
+            }
+            #wrapper
+            {
+                width: 100%;
+            }
+
+            #inputText {
+                width: 600px;
+                height: 120px;
+                border: 3px solid #cccccc;
+                padding: 5px;
+                font-family: Tahoma, sans-serif;
+                background-position: bottom right;
+                background-repeat: no-repeat;
+            }
+
+            #encodeButton {
+                background-color: #34495E;
+                border: none;
+                color: white;
+                padding: 5px 12px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 16px;
+                margin-top: 10px;
+                font-family: "Palatino Linotype";
+                border: 0px dashed #39D2B4;
+                border-radius: 4px;
+            }
+
+            #copyAllButton {
+                background-color: #39D2B4;
+                border: none;
+                display: none;
+                color: white;
+                padding: 3px 7px;
+                text-align: center;
+                text-decoration: none;
+                font-size: 14px;
+                margin-top: 10px;
+            }
+
+            #outputText
+            {
+                word-wrap: break-word;
+                white-space: pre-wrap;
+            }
+
+            .input-file-container {
+                position: relative;
+                width: 200px;
+            }
+
+            .js .input-file-trigger {
+                display: block;
+                padding: 14px 45px;
+                background: #39D2B4;
+                color: #fff;
+                transition: all 0.3s;
+                font-size: 1em;
+                cursor: pointer;
+            }
+
+            .js .input-file {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 200px;
+                opacity: 0;
+                padding: 14px 0;
+                cursor: pointer;
+            }
+
+            .js .input-file:hover + .input-file-trigger,
+            .js .input-file-trigger:hover {
+                background: #34495E;
+                color: #39D2B4;
+            }
+
+            .file-return {
+                margin: 0;
+                margin-top: 5px;
+                margin-bottom: 10px;
+            }
+
+            .js .file-return {
+                font-style: italic;
+                font-size: .9em;
+                font-weight: bold;
+            }
+
+            .js .file-return:not(:empty):before {
+                content: "Current Key: ";
+                font-style: normal;
+                font-weight: normal;
+            }
+
+
+        </style>
+    </head>
+    <body>
+        <div id="wrapper">
+            <div id="inputArea">
+                <textarea name="styled-textarea" id="inputText" onfocus="setbg('#39d2b407');" onblur="setbg('white')"></textarea>
+            </div>
+            <div id="uploadKeyArea">
+                <div class="input-file-container">
+                    <input class="input-file" id="fileInput" type="file">
+                    <label tabindex="0" for="my-file" class="input-file-trigger">Upload a key...</label>
+                </div>
+                <p class="file-return"></p>
+                <input id="encode" type="radio" name="coding" value="Encode" onclick="clickRadioButton(this.value)" checked> Encode<br>
+                <input id="decode" type="radio" name="coding" value="Decode" onclick="clickRadioButton(this.value)"> Decode<br>
+                <button id="encodeButton" onclick="encodeOrDecode()"> ENCODE </button><br>
+                <button id="copyAllButton" onclick="copyAll()"> Copy to Clipboard </button>
+            </div>
+            <div id="outputArea">
+                <p id="outputText"></p>
+            </div>
+        </div>
+
+
+
+        <script type="text/javascript">
+            var indexStepIncrement = 6;
+            var searchStartOffsetIncrement = 9;
+            var encode = true;
+
+            var indexStep = 0;
+            var searchStartOffset = 0;
+
+            var key = ""; // 0H1e2y3 4t5h6e7r8e9,10 11h12o13w14 15a16r17e18 19y20o21u22? --> message => eyyy, who art thou? ---> 8-32-38-27-40-55-56-60-75-64
+
+            function encodeOrDecode(evt) {
+                var f = document.getElementById("fileInput").files[0];
+                var message = document.getElementById("inputText").value;
+
+                if (f) {
+                    var r = new FileReader();
+                    r.onload = function (e) {
+                        var contents = e.target.result;
+                        key = r.result;
+
+                        if (encode)
+                        {
+                            document.getElementById("outputText").innerHTML = encodeMessage(message);
+                            reassesCopyButtonVisibility();
+                        }
+                        else
+                        {
+                            document.getElementById("outputText").innerHTML = decodeMessage(message);
+                            reassesCopyButtonVisibility();
+                        }
+                    }
+
+                    r.readAsText(f);
+                } else if (key != "")
+                {
+                    if (encode) {
+                        document.getElementById("outputText").innerHTML = encodeMessage(message);
+                        reassesCopyButtonVisibility();
+                    }
+                    else {
+                        document.getElementById("outputText").innerHTML = decodeMessage(message);
+                        reassesCopyButtonVisibility();
+                    }
+                }
+                else {
+                    alert("You must upload a key file");
+                }
+            }
+
+            function encodeChar(char)
+            {
+                var position = key.indexOf(char, searchStartOffset) + 1; // 0, 9, 18, 27, 36, 45, 54, ...
+                if (position == 0)
+                {
+                    searchStartOffset = 0;
+                    position = key.indexOf(char, searchStartOffset) + 1;
+                    if (position == 0)
+                    {
+                        throw new Error("Bad Key/Message Combination");
+                    }
+                }
+                searchStartOffset += searchStartOffsetIncrement;
+
+                indexStep += indexStepIncrement; // 6, 12, 18, 24, 30, 36, 42, 48, 54, 60, 66, 6, ...
+                if (indexStep > 69) {
+                    indexStep = 6;
+                }
+
+                var newPosition = position + indexStep;
+
+                return newPosition;
+            }
+
+            function encodeMessage(message)
+            {
+                try
+                {
+                    indexStep = 0;
+                    searchStartOffset = 0;
+
+                    var encodedWord = "";
+                    for (var i = 0; i < message.length; i++) {
+                        encodedWord += encodeChar(message[i]) + "-";
+                    }
+
+                    return encodedWord.substring(0, encodedWord.length - 1);
+                }
+                catch (error)
+                {
+                    alert("The current message cannot be encoded with the given key");
+                }
+            }
+
+            function decodeChar(position)
+            {
+                indexStep += indexStepIncrement; // 6, 12, 18, 24, 30, 36, 42, 48, 54, 60, 66, 6, ...
+                if (indexStep > 69) {
+                    indexStep = 6;
+                }
+
+                var newIndex = position - 1 - indexStep;
+                if (key[newIndex] == undefined) {
+                    throw new Error("Cannot decode the message");
+                }
+                return key[newIndex];
+            }
+
+            function decodeMessage(code)
+            {
+                try {
+                    indexStep = 0;
+                    var numbers = code.split('-');
+                    var message = "";
+                    for (var i = 0; i < numbers.length; i++) {
+                        message += decodeChar(numbers[i]);
+                    }
+                    return message;
+                }
+                catch (error) {
+                    return "<p style='color: red;'>Cannot decode the message</p>";
+                }
+
+            }
+        </script>
+
+        <script type="text/javascript">
+            document.querySelector("html").classList.add('js');
+
+            var fileInput = document.querySelector(".input-file"),
+                button = document.querySelector(".input-file-trigger"),
+                the_return = document.querySelector(".file-return");
+
+            button.addEventListener("click", function (event) {
+                fileInput.focus();
+                return false;
+            });
+
+            fileInput.addEventListener("change", function (event) {
+                if (this.files[0]) {
+                    the_return.innerHTML = this.files[0].name;
+                }
+            });
+
+            reassesCopyButtonVisibility();
+
+
+            function clickRadioButton(type)
+            {
+                if (type == "Encode") {
+                    encode = true;
+                    document.getElementById('encodeButton').innerText = "ENCODE";
+                }
+                else
+                {
+                    encode = false;
+                    document.getElementById('encodeButton').innerText = "DECODE";
+                }
+            }
+
+            function setbg(color)
+            {
+                document.getElementById("inputText").style.background = color
+            }
+
+            function reassesCopyButtonVisibility()
+            {
+                console.log("Running");
+                var text = document.querySelector('#outputText').innerText;
+
+                if (text == '')
+                {
+                    document.querySelector("#copyAllButton").style.display = 'none';
+                }
+                else
+                {
+                    document.querySelector("#copyAllButton").style.display = 'inline-block';
+                }
+            }
+
+            function copyAll()
+            {
+                const el = document.createElement('input');  // Create a <textarea> element
+                el.value = document.querySelector('#outputText').innerText;                                 // Set its value to the string that you want copied
+                el.setAttribute('readonly', '');                // Make it readonly to be tamper-proof
+                el.style.position = 'absolute';
+                el.style.left = '-9999px';                      // Move outside the screen to make it invisible
+                document.body.appendChild(el);                  // Append the <textarea> element to the HTML document
+                const selected =
+                   document.getSelection().rangeCount > 0        // Check if there is any content selected previously
+                     ? document.getSelection().getRangeAt(0)     // Store selection if found
+                     : false;                                    // Mark as false to know no selection existed before
+                el.select();                                    // Select the <textarea> content
+                document.execCommand('copy');                   // Copy - only works as a result of a user action (e.g. click events)
+                document.body.removeChild(el);                  // Remove the <textarea> element
+                if (selected) {                                 // If a selection existed before copying
+                   document.getSelection().removeAllRanges();    // Unselect everything on the HTML document
+                   document.getSelection().addRange(selected);   // Restore the original selection
+                }
+            }
+
+
+
+
+        </script>
+    </body>
+</html>

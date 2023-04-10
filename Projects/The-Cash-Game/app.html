@@ -1,0 +1,739 @@
+<html>
+    <head>
+        <style>
+            html, body, #wrapper
+{
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+/* Samsung S8 => PIXELS = 1440 x 2960, VIEWPORT = 360 x 740 */
+/* Menu Screen */
+#menu-screen
+{
+    background-color: #dba143;
+    height: 100%;
+    width: 100%;
+    overflow:auto;
+}
+#title
+{
+    position: absolute;
+    left: 50%;
+    top: 200px;
+    transform: translate(-50%, -50%);             
+    height:200px;
+    width: 740px;
+    color: black;
+    font-weight: 600;
+    text-align: center;
+    vertical-align: middle;
+}
+#title-top
+{
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-family: 'Times New Roman';
+    font-size: 20px;
+    height:30px;
+    width: 740px;       
+}
+#title-bottom
+{
+    position: absolute;
+    top:0px;
+    height:200px;
+    width: 740px;
+    font-size: 80px;
+    font-family: 'Brush Script MT', 'Brush Script Std', cursive;   
+}
+#start-button
+{
+    height:40px;
+    width:200px;
+    position: absolute;
+    left: 50%;
+    top: 250px;
+    transform: translate(-50%, -50%);
+}
+#example-button
+{
+    height:30px;
+    width:200px;
+    position: absolute;
+    left: 50%;
+    top: 500px;
+    transform: translate(-50%, -50%);
+}
+#number-of-dots-selector-box
+{
+    height:20px;
+    width:200px;
+    text-align: center;
+    position: absolute;
+    left: 50%;
+    top: 325px;
+    transform: translate(-50%, -50%);
+}
+#number-of-dots-selector-box #number-of-dots-selector
+{
+    width: 50px;
+    padding: 0px 0px 0px 15px;
+    text-align: center;
+    text-align-last: center;
+}
+#difficulty-selector-box
+{
+    height:20px;
+    width:150px;
+    text-align: center;
+    text-align-last: center;
+    position: absolute;
+    left: 50%;
+    top: 400px;
+    transform: translate(-50%, -50%);
+}
+
+/* Game Screen */
+#game-screen
+{
+    background-color: #dba143;
+    height: 100%;
+    width: 100%;
+    display: none;
+}
+#game-board
+{
+    position: absolute;
+    height:500px;
+    width: 1300px;
+}
+#connection-svg
+{
+    position: absolute;
+    height:500px;
+    width: 1300px;
+}
+#connection-svg > polyline
+{
+    transform: translate(50px, 50px);
+    z-index:19;
+}
+
+/* Example Game */
+#example-game-screen
+{
+    background-color: #dba143;
+    height: 100%;
+    width: 100%;
+    display: none;
+}
+
+.node
+{
+    height:100px;
+    width: 100px;
+    background-color: red;
+    border: black 5px solid;
+    border-radius: 100px;
+    position:absolute;
+    box-sizing: border-box;
+    z-index:20;
+}
+.leftHalf
+{
+    height: 90px;
+    width: 45px;
+    position:absolute;
+    transform:translate(0, 0);
+    border-top-left-radius: 50px;
+    border-bottom-left-radius: 50px;
+    background: rgba(255, 115, 0, 0.7);
+    box-sizing: border-box;
+}
+.rightHalf
+{
+    height: 90px;
+    width: 45px;
+    position:absolute;
+    transform:translate(+45px, 0);
+    border-top-right-radius: 50px;
+    border-bottom-right-radius: 50px;
+    background: rgba(255, 0, 0, 0.781);
+    box-sizing: border-box;
+}
+.value
+{
+    position:absolute;
+    z-index: 21;
+    font-size: 60px;
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bolder;
+    pointer-events: none;
+    margin:0;
+    text-align: center;
+    width: 90px;
+    transform: translate(0px, 12px);
+}
+
+
+/* Victory Screen */
+#victory-screen
+{
+    background-color: #dba143;
+    height: 100%;
+    width: 100%;
+    display: none;
+}
+
+#victory-text
+{
+    position: absolute;
+    left: 50%;
+    top: 300px;
+    transform: translate(-50%, -50%);             
+    height:200px;
+    width: 1000px;
+    color: black;
+    font-size: 65px;
+    font-weight: 600;
+    text-align: center;
+    vertical-align: middle;
+}
+#victory-text-p
+{
+    color: red;
+    font-weight: bolder;
+}
+        </style>
+        <script>
+            var node1;
+var node2;
+var node3;
+var node4;
+var node5;
+var node6;
+var node7;
+var node8;
+var node9;
+var node10;
+var node11;
+
+var app;
+
+var menu_screen;
+var game_screen;
+var game_board;
+var example_game_screen;
+var victory_screen;
+var current_screen;
+var connection_svg;
+var moves = 0;
+var nodes = [];
+var grid = [[0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0]];
+var connectionSVGS = new Set();
+
+function startApp()
+{
+    app = new App();
+    menu_screen = document.getElementById("menu-screen");
+    game_screen = document.getElementById("game-screen");
+    game_board = document.getElementById("game-board");
+    connection_svg = document.getElementById("connection-svg");
+    example_game_screen = document.getElementById("example-game-screen");
+    victory_screen = document.getElementById("victory-screen");
+    app.loadMenuScreen();
+}
+
+function startGameFromMenu()
+{
+    changeScreen(game_screen);
+    app.game.startGame(document.getElementById("number-of-dots-selector").value, document.getElementById("difficulty-selector").value);
+}
+
+function launchExampleGame()
+{
+    app.startExampleGame();
+}
+
+function checkVictory()
+{
+    var victory = true;
+    for (var nodeIndex in nodes){ let node = nodes[nodeIndex];
+        if (node.value < 0){
+            victory = false;
+        }
+    }
+
+    if (victory)
+    {
+        changeScreen(victory_screen);
+        document.getElementById("victory-text-p").innerText = moves;
+    }
+}
+
+function changeScreen(new_screen)
+{
+    current_screen = current_screen ? current_screen : menu_screen;
+    current_screen.style.display = "none";
+    current_screen = new_screen;
+    current_screen.style.display = "block";
+}
+
+function callGive(id)
+{
+    for (let i=0; i<nodes.length; i++)
+    {
+        let node = nodes[i];
+        if (node.id == id)
+        {
+            node.give();
+        }
+    }
+}
+
+function callTake(id)
+{
+    for (let i=0; i<nodes.length; i++)
+    {
+        let node = nodes[i];
+        if (node.id == id)
+        {
+            node.take();
+        }
+    }
+}
+
+function getNode(id)
+{
+    console.log("Getting node");
+    for (let i=0; i<nodes.length; i++)
+    {
+        let node = nodes[i];
+        console.log(node);
+        if (node.id == id)
+        {
+            console.log(node);
+            return node;
+        }
+    }
+}
+
+class Node
+{
+    constructor(id)
+    {
+        this.value = null;
+        this.connectedNodes = [];
+        this.id = id;
+        this.x = null;
+        this.y = null;
+    }
+
+    connectNodes()
+    {
+        while(this.connectionNums.length != 0)
+        {
+            switch (this.connectionNums[0])
+            {
+                case 1:
+                    this.connectedNodes.push(node1);
+                    break;
+                case 2:
+                    this.connectedNodes.push(node2);
+                    break;
+                case 3:
+                    this.connectedNodes.push(node3);
+                    break;
+                case 4:
+                    this.connectedNodes.push(node4);
+                    break;
+                case 5:
+                    this.connectedNodes.push(node5);
+                    break;
+                case 6:
+                    this.connectedNodes.push(node6);
+                    break;
+                case 7:
+                    this.connectedNodes.push(node7);
+                    break;
+                case 8:
+                    this.connectedNodes.push(node8);
+                    break;
+                case 9:
+                    this.connectedNodes.push(node9);
+                    break;
+                case 10:
+                    this.connectedNodes.push(node10);
+                    break;
+                case 11:
+                    this.connectedNodes.push(node11);
+                    break;
+            }
+            this.connectionNums.shift();
+        }
+    }
+
+    connectTo(id)
+    {  
+        if (!this.connectedNodes.includes(getNode(id)))
+        {
+            this.connectedNodes.push(getNode(id));
+            getNode(id).connectTo(this.id);
+        }
+    }
+
+    placeNode()
+    {
+        for (let i=100000; i>=0; i--)
+        {
+            let x = Math.floor(Math.random() * 12);
+            let y = Math.floor(Math.random() * 4);
+            if (grid[y][x] == 0)
+            {
+                this.x = x;
+                this.y = y;
+                grid[y][x] = 1;
+                break;
+            }
+            if (i == 0)
+            {
+                alert("I HAVE FAILED!");
+            }
+        }
+        
+    }
+    
+    displayNode()
+    {
+        game_board.innerHTML += '<div class="node" style="left: '+this.x*100+'px; top: '+this.y*100+'px"><div class="leftHalf" onclick="callTake('+this.id+');"></div><div class="rightHalf" onclick="callGive('+this.id+');"></div><p class="value" id="'+this.id+'"></div>';
+    }
+
+    give()
+    {
+        moves++;
+        for (var connectionIndex in this.connectedNodes){ var connectedNode = this.connectedNodes[connectionIndex];
+            connectedNode.increaseValue();
+            this.decreaseValue();
+        }
+        checkVictory();
+    }
+
+    take()
+    {
+        moves++;
+        for (var connectionIndex in this.connectedNodes){ var connectedNode = this.connectedNodes[connectionIndex];
+            connectedNode.decreaseValue();
+            this.increaseValue();
+        }
+        checkVictory();
+    }
+
+    displayValue()
+    {
+        console.log("Displaying Value");
+        console.log(this.id);
+        switch (this.id)
+        {
+            case 0:
+                document.getElementById("0").innerText = this.value;
+                break;
+            case 1:
+                document.getElementById("1").innerText = this.value;
+                break;
+            case 2:
+                document.getElementById("2").innerText = this.value;
+                break;
+            case 3:
+                document.getElementById("3").innerText = this.value;
+                break;
+            case 4:
+                document.getElementById("4").innerText = this.value;
+                break;
+            case 5:
+                document.getElementById("5").innerText = this.value;
+                break;
+            case 6:
+                document.getElementById("6").innerText = this.value;
+                break;
+            case 7:
+                document.getElementById("7").innerText = this.value;
+                break;
+            case 8:
+                document.getElementById("8").innerText = this.value;
+                break;
+            case 9:
+                document.getElementById("9").innerText = this.value;
+                break;
+        }
+    }
+
+    increaseValue()
+    {
+        this.value++;
+        this.displayValue();
+    }
+
+    decreaseValue()
+    {
+        this.value--;
+        this.displayValue();
+    }
+}
+
+class App
+{
+    constructor()
+    {
+        this.game = new Game();
+    }
+
+    loadMenuScreen()
+    {       
+        changeScreen(menu_screen);
+    }
+
+    startExampleGame()
+    {
+        changeScreen(example_game_screen);
+        node1 = new Node(4, [5, 9], 1);
+        node2 = new Node(-2, [6, 7], 2);
+        node3 = new Node(2, [4, 5], 3);
+        node4 = new Node(8, [3, 6], 4);
+        node5 = new Node(-1, [1, 3, 7], 5);
+        node6 = new Node(1, [2, 4, 8], 6);
+        node7 = new Node(3, [2, 5, 10], 7);
+        node8 = new Node(-4, [6, 11], 8);
+        node9 = new Node(-5, [1, 11], 9);
+        node10 = new Node(0, [7, 11], 10);
+        node11 = new Node(-3, [8, 9, 10], 11);
+
+        nodes = [node1,node2,node3,node4,node5,node6,node7,node8,node9,node10,node11];
+        for (var nodeIndex in nodes){ let node = nodes[nodeIndex];
+            node.connectNodes();
+            node.presentValue();
+        }
+    }
+}
+
+class Game
+{
+    constructor(numberOfDots, difficulty)
+    {
+        this.numberOfDots = numberOfDots;
+        this.difficulty = difficulty;
+        this.nodes = [];
+        this.randomnessFactor = Math.floor(Math.random() * 4) + 1;
+        this.genius = null;
+    }
+
+    startGame(num_of_dots, difficulty)
+    {
+        this.numberOfDots = num_of_dots;
+        this.difficulty = difficulty;
+        console.log("Starting The Cash Game on "+difficulty+" with "+num_of_dots+" dots!");  
+
+        this.createNodes();
+        this.connectNodes();
+        this.giveValuesToNodes();
+        this.placeNodes();
+
+        this.displayNodes();
+        this.displayConnections();
+    }
+
+    createNodes()
+    {
+        for (let i=0; i< this.numberOfDots; i++)
+        {
+            nodes[i] = new Node(i);
+        }
+    }
+
+    connectNodes()
+    {
+        if (this.randomnessFactor > 0)
+        {
+            for (let i=0; i<nodes.length-1; i++)
+            {
+                nodes[i].connectTo(i+1); //Make a line
+                connectionSVGS.add([i, i+1]);
+            }
+            this.genius = 0;
+        } 
+        
+    }
+
+    giveValuesToNodes()
+    {
+        var integers = this.getRandomIntegers();
+        for (var i=0; i<nodes.length; i++)
+        {   let node = nodes[i];
+            node.value = integers[i];
+        }
+    }
+
+    placeNodes()
+    {
+        for (let i=0; i<nodes.length; i++)
+        {
+            nodes[i].placeNode();
+        }
+    }
+
+    displayNodes()
+    {
+        for (let i=0; i<nodes.length; i++)
+        {
+            nodes[i].displayNode();
+            nodes[i].displayValue();
+        }
+    }
+
+    displayConnections()
+    {
+        console.log("Displaying Connections");
+        for (let connection of connectionSVGS)
+        {
+            console.log(connection);
+            console.log(connection[0]);
+            let node1 = getNode(connection[0]);
+            let node2 = getNode(connection[1]);
+            let node3 = getNode(0);
+            console.log(node3);
+            console.log(node1);
+            console.log(node2);
+            connection_svg.innerHTML += '<polyline points="'+node1.x*100+','+node1.y*100+' '+node2.x*100+','+node2.y*100+'" style="fill:none;stroke:black;stroke-width:6"></polyline>';
+        } 
+    }
+
+    getRandomIntegers()
+    {
+        var integers = [];
+        var hasNegative = false;
+        for (var i=0;i<this.numberOfDots;i++)
+        {
+            let val = Math.floor(Math.random() * 21) - 9;
+            if (val < 0) { hasNegative = true; }
+            integers[i] = val;
+        }
+        if (hasNegative)
+        {
+            switch (this.difficulty)
+            {
+                case "easy":
+                    if (this.valuesSum(integers) == 4)
+                        return integers;
+                    break;
+                case "medium":
+                        if (this.valuesSum(integers) == 2)
+                        return integers;
+                    break;
+                case "hard":
+                        if (this.valuesSum(integers) == 0)
+                        return integers;    
+                    break;
+                case "impossible":
+                        if (this.valuesSum(integers) == -2)
+                        return integers;    
+                    break;
+            }
+        }
+        return this.getRandomIntegers();
+    }
+
+    valuesSum(integers)
+    {
+        var sum = 0;
+        for (let intIndex in integers)
+        {
+            sum += integers[intIndex];
+        }
+        return sum;
+    }
+}
+        </script>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    </head>
+    <body onload="startApp()">
+        
+        <div id="wrapper">
+            <div id="menu-screen">
+                <div id="title">
+                    <div id="title-top">The</div>
+                    <div id="title-bottom">Cash Game</div> 
+                </div>
+                <button id="start-button" onclick="startGameFromMenu()">Start Game</button>
+                <div id="number-of-dots-selector-box">
+                    Number of Dots:</br>
+                    <input id="number-of-dots-selector" type="number" name="num_of_dots" min="2" max="10" value="2">
+                </div>
+                <div id="difficulty-selector-box">
+                    Difficulty:</br>
+                    <select id="difficulty-selector">
+                        <option value="easy">Easy</option>
+                        <option value="medium">Medium</option>
+                        <option value="hard">Hard</option>
+                        <option value="impossible">Probably Impossible</option>
+                    </select>
+                </div>
+                <!--<button id="example-button" onclick="launchExampleGame()">Play Example Game</button>-->
+            </div>
+            <div id="game-screen">
+                <div id="game-board">
+                </div>
+                <svg id="connection-svg" height="500px" width="1300px">
+                </svg>
+            </div>
+            <div id="example-game-screen">
+                <div class="node" style="left: 350px; top: 400px"><div class="leftHalf"onclick="callTake(1);"></div><div class="rightHalf"  onclick="callGive(1);"></div></div><!--4-->
+                <div class="node" style="left: 700px; top: 420px"><div class="leftHalf"onclick="callTake(2);"></div><div class="rightHalf"  onclick="callGive(2);"></div></div><!---2-->
+                <div class="node" style="left: 150px; top: 600px"><div class="leftHalf"onclick="callTake(3);"></div><div class="rightHalf"  onclick="callGive(3);"></div></div><!--2-->
+                <div class="node" style="left: 150px; top: 900px"><div class="leftHalf"onclick="callTake(4);"></div><div class="rightHalf"  onclick="callGive(4);"></div></div><!--8-->
+                <div class="node" style="left: 450px; top: 620px"><div class="leftHalf"onclick="callTake(5);"></div><div class="rightHalf"  onclick="callGive(5);"></div></div><!---1-->
+                <div class="node" style="left: 430px; top: 890px"><div class="leftHalf"onclick="callTake(6);"></div><div class="rightHalf"  onclick="callGive(6);"></div></div><!--1-->
+                <div class="node" style="left: 750px; top: 800px"><div class="leftHalf"onclick="callTake(7);"></div><div class="rightHalf"  onclick="callGive(7);"></div></div><!--3-->
+                <div class="node" style="left: 600px; top: 1030px"><div class="leftHalf"onclick="callTake(8);"></div><div class="rightHalf"  onclick="callGive(8);"></div></div><!---4-->
+                <div class="node" style="left: 330px; top: 1200px"><div class="leftHalf"onclick="callTake(9);"></div><div class="rightHalf"  onclick="callGive(9);"></div></div><!---5-->
+                <div class="node" style="left: 670px; top: 1300px"><div class="leftHalf" onclick="callTake(10);"></div><div class="rightHalf" onclick="callGive(10);"></div></div><!---2-->
+                <div class="node" style="left: 400px; top: 1500px" ><div class="leftHalf" onclick="callTake(11);"></div><div class="rightHalf" onclick="callGive(11);"></div></div><!---3-->
+                <svg height="3000px" width="3000px" style="background:#dba143">
+                    <polyline points="350, 400 450, 620" style="fill:none;stroke:black;stroke-width:6"></polyline>
+                    <polyline points="350, 400 330, 1200" style="fill:none;stroke:black;stroke-width:6"></polyline>
+                    <polyline points="700, 420 430, 890" style="fill:none;stroke:black;stroke-width:6"></polyline>
+                    <polyline points="700, 420 750, 800" style="fill:none;stroke:black;stroke-width:6"></polyline>
+
+                    <polyline points="430, 890 150, 900" style="fill:none;stroke:black;stroke-width:6"></polyline>
+                    <polyline points="150, 900 150, 600" style="fill:none;stroke:black;stroke-width:6"></polyline>
+                    <polyline points="150, 600 450, 620" style="fill:none;stroke:black;stroke-width:6"></polyline>
+                    <polyline points="450, 620 750, 800" style="fill:none;stroke:black;stroke-width:6"></polyline>
+
+                    <polyline points="430, 890 600, 1030" style="fill:none;stroke:black;stroke-width:6"></polyline>
+                    <polyline points="600, 1030 400, 1500" style="fill:none;stroke:black;stroke-width:6"></polyline>
+                    <polyline points="400, 1500 330, 1200" style="fill:none;stroke:black;stroke-width:6"></polyline>
+                    <polyline points="400, 1500 670, 1300" style="fill:none;stroke:black;stroke-width:6"></polyline>
+                    <polyline points="670, 1300 750, 800" style="fill:none;stroke:black;stroke-width:6"></polyline>
+                </svg>;
+                <div id="1" class="value" style="left: 350px; top: 400px" ></div><!--4-->
+                <div id="2" class="value" style="left: 700px; top: 420px" ></div><!---2-->
+                <div id="3" class="value" style="left: 150px; top: 600px" ></div><!--2-->
+                <div id="4" class="value" style="left: 150px; top: 900px" ></div><!--8-->
+                <div id="5" class="value" style="left: 450px; top: 620px" ></div><!---1-->
+                <div id="6" class="value" style="left: 430px; top: 890px" ></div><!--1-->
+                <div id="7" class="value" style="left: 750px; top: 800px" ></div><!--3-->
+                <div id="8" class="value" style="left: 600px; top: 1030px" ></div><!---4-->
+                <div id="9" class="value" style="left: 330px; top: 1200px" ></div><!---5-->
+                <div id="10" class="value" style="left: 670px; top: 1300px" ></div><!---2-->
+                <div id="11" class="value" style="left: 400px; top: 1500px" ></div><!---3-->
+            </div>
+            <div id="victory-screen">
+                <div id="victory-text">
+                        Congratulations!<br>You achieved victory in <strong id="victory-text-p"></strong> moves! 
+                </div>
+            </div>
+        </div>
+
+    </body>
+</html>

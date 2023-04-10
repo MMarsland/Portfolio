@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Puzzle Sovler</title>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <style>
+        .container {
+          flex-direction: row;
+          height: 320px;
+          width: 700px;
+          box-sizing: border-box;
+          padding: 2.5px 5px 2.5px 5px;
+        }
+        .piece {
+          display: flex;
+          height: 100px;
+          position: relative;
+          width: 305px;
+          border: 1px solid black;
+          box-sizing: border-box;
+          margin: 2.5px;
+        }
+        .hole {
+          display: flex;
+          position: absolute;
+          margin: 5px;
+          height: 40px;
+          width: 40px;
+          border-radius: 50px;
+          border: 1px solid black;
+          box-sizing: border-box;
+        }
+        .top {
+          position: absolute;
+          left: 350px;
+          height: 310px;
+          width: 310px;
+          box-sizing: border-box;
+          transform: rotate(-90deg);
+        }
+        .bottom {
+          position: absolute;
+          height: 310px;
+          width: 310px;
+          box-sizing: border-box;
+        }
+        .text {
+        }
+    </style>
+    <script>
+      class Piece {
+        constructor(number, map, orientation) {
+          this.pieceNum = number;
+          this.baseMap = map;
+          this.orientation = orientation;
+        }
+        getNewOrientation(orientation) {
+          return new Piece(this.pieceNum, this.baseMap, orientation);
+        }
+        getOrientedMap() {
+          let map = [];
+          switch(this.orientation) {
+            case 0:
+              map = this.baseMap;
+              break;
+            case 1:
+              map = this.baseMap.slice(6,12).concat(this.baseMap.slice(0,6));
+              break;
+            case 2:
+              map = this.baseMap.slice(6,12).concat(this.baseMap.slice(0,6)).reverse();
+              break;
+            case 3:
+              map = this.baseMap.slice().reverse();
+              break;
+          }
+          return map;
+        }
+      }
+
+      // GLOBALS
+      let maps = {
+        0: [0,0,0,0,0,1,0,1,0,1,0,0],
+        1: [0,1,0,0,1,0,0,0,1,0,0,0],
+        2: [0,0,1,0,0,0,1,0,0,0,1,0],
+        3: [1,0,0,0,0,1,0,0,0,1,0,0],
+        4: [0,0,0,1,0,0,1,0,0,0,1,0],
+        5: [0,0,1,0,0,1,0,1,0,0,0,0]
+      }
+      var DESIRED_COUNT = 9;
+      let boardsTried = 0;
+      let solutions = [];
+      loadingState = 3;
+
+      async function main() {
+
+        // Allow DOM to load before processing
+        await sleep(50);
+
+        let pieces = [];
+        for (key in maps) {
+          pieces.push(new Piece(key, maps[key], 0));
+        }
+        let count = 0;
+        for (let arrangement of getArrangements(pieces)) {
+            count++;
+            if (count == 200000) {
+                count = 0;
+                await updateLoading();
+            }
+          if (testBoard(arrangement)) {
+              solutions.push(arrangement);
+          }
+        }
+
+        document.getElementById("loading").innerHTML = "Solutions Found";
+        describeResults();
+        for(let key in solutions) {
+          describeSolution(solutions[key], key)
+          drawSolution(solutions[key]);
+        }
+      }
+
+      function getArrangements(pieces) {
+        let arrangements = [];
+        let count = 0;
+        for (let permutation of getPermutations(pieces)) {
+          for (let orientation of getOrientations(permutation)) {
+            arrangements.push(orientation);
+          }
+        }
+        return arrangements;
+      }
+
+      function getPermutations(array) {
+        return perm(array);
+        function perm(xs) {
+          let ret = [];
+
+          for (let i = 0; i < xs.length; i = i + 1) {
+            let rest = perm(xs.slice(0, i).concat(xs.slice(i + 1)));
+
+            if(!rest.length) {
+              ret.push([xs[i]])
+            } else {
+              for(let j = 0; j < rest.length; j = j + 1) {
+                ret.push([xs[i]].concat(rest[j]))
+              }
+            }
+          }
+          return ret.slice();
+        }
+      }
+
+      function getOrientations(pieces) {
+        let orientations = []
+        for (let a=0;a<4;a++) {
+          for (let b=0;b<4;b++) {
+            for (let c=0;c<4;c++) {
+              for (let d=0;d<4;d++) {
+                for (let e=0;e<4;e++) {
+                  for (let f=0;f<4;f++) {
+                    orientations.push([pieces[0].getNewOrientation(a),
+                                      pieces[1].getNewOrientation(b),
+                                      pieces[2].getNewOrientation(c),
+                                      pieces[3].getNewOrientation(d),
+                                      pieces[4].getNewOrientation(e),
+                                      pieces[5].getNewOrientation(f)]);
+                  }
+                }
+              }
+            }
+          }
+        }
+        return orientations;
+      }
+
+      function testBoard(pieces) {
+        boardsTried++;
+
+        let board = [];
+        let topBoard = [];
+
+        for(let key in pieces) {
+          if (key < 3) {
+            board.push(...pieces[key].getOrientedMap());
+          } else {
+            topBoard.push(...pieces[key].getOrientedMap());
+          }
+        }
+
+        for (let col=5;col>=0;col--) {
+          for (let row=0;row<6;row++){
+            board.push(topBoard[row*6+col]);
+          }
+        }
+
+        count = 0;
+        for(let i=0;i<36;i++) {
+          if (board[i] == 1 && board[i+36] == 1) {
+            count++;
+          }
+        }
+        if (count == DESIRED_COUNT) {
+          return true;
+        }
+        return false;
+      }
+
+      function describeResults() {
+        let container = document.createElement('pre');
+        container.classList.add("text");
+        container.innerHTML = "Total Boards Tested: "+boardsTried+"<br>Solutions Found: "+solutions.length;
+        document.body.appendChild(container);
+      }
+
+      function describeSolution(pieces, key) {
+        let container = document.createElement('pre');
+        container.classList.add("text");
+        let description = `<strong>SOLUTION ${parseInt(key)+1}:</strong><br>`;
+        for (let key in pieces) {
+          description += "  Location "+(parseInt(key)+1)+":<br>    Piece Number "+(parseInt(pieces[key].pieceNum)+1)+", Orientation: "+(pieces[key].orientation+1)+"<br>";
+        }
+        container.innerHTML = description;
+        document.body.appendChild(container);
+      }
+
+      function drawSolution(pieces) {
+        let container = document.createElement('div');
+        container.classList.add("container");
+        let htmlString = ``;
+        let htmlBottom = ``;
+        let htmlTop = ``;
+        for (let key in pieces) {
+          let holesString = ``;
+          for (let i=0;i<12;i++) {
+            if (pieces[key].getOrientedMap()[i] == 1) {
+              holesString += `<div class="hole" style="left: ${i%6*50}px; top: ${i-5>0?50:0}px;"></div>`;
+            }
+          }
+          if (key < 3) {
+            htmlBottom +=`<div class="piece">
+                          ${holesString}
+                        </div>`
+          } else {
+            htmlTop += `<div class="piece">
+                        ${holesString}
+                      </div>`
+          }
+        }
+        htmlString += `
+          <div class="bottom">${htmlBottom}</div>
+          <div class="top">${htmlTop}</div>`;
+        container.innerHTML = htmlString;
+        document.body.appendChild(container);
+      }
+
+      function log(text) {
+        document.getElementById("log").innerHTML += `<li>${text}</li>`;
+        console.log(text);
+      }
+
+      function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+      }
+
+      async function updateLoading() {
+          loadingState = (loadingState + 1) % 4;
+          dots = (loadingState == 0 ? "." : (loadingState == 1 ? ".." : (loadingState == 2 ? "..." : "")));
+          document.getElementById("loading").innerHTML = "Loading Solutions"+dots;
+          return await sleep(20);
+      }
+
+    </script>
+  </head>
+  <body onload="main()">
+    <h1 id="loading">Loading Solutions</h1>
+    <ol style="list-style: none" id="log"></ol>
+  </body>
+</html>

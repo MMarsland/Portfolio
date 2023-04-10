@@ -1,0 +1,48 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="style.css">
+        <script src="script.js"></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+    <body onload="startApp();">
+        <div id="mainWrapper">
+            <div id="s8PhoneScreen">
+                <div id="runningGameScreen">
+                    <div id="exit">EXIT</div>
+                    <div id="settings">Settings</div>
+                    <div id="gameNum">Game #</div>
+                    <div id="clockAreaCover" onclick="clockPlayPause()"></div>
+                    <div id="matchScore">"0-0"</div>
+                    <div id="matchTimeLabel">Match Time</div>
+                    <div id="matchTime">0:00</div>
+                    <div id="gameTimeLabel">Game Time</div>
+                    <div id="gameTime">0:00</div>
+                    <div id="divider"></div>
+                    <div id="scoreHistory"></div>
+                    
+                    
+                    
+                    <div id="player1Side">
+                        <div class="name" contenteditable="true" onclick="editPlayer1()">Michael</div>
+                        <div class="score" onclick="scorePlayer1()">0</div>
+                        <div class="letCall" onclick="decreaseScorePlayer1()">Let Call</div>
+                        <div class="other" onclick="otherPlayer1()">Other</div>
+                        <div class="serveIndicator"><div class="left-dot"></div><div class="right-dot"></div><div class="side">R</div></div>
+                    </div>
+                    <div id="player2Side">
+                        <div class="name" onkeypress="return (this.innerText.length <= 7)" contenteditable="true" onclick="editPlayer2()">Mohamed</div>
+                        <div class="score" onclick="scorePlayer2()">0</div>
+                        <div class="letCall" onclick="decreaseScorePlayer2()">Let Call</div>
+                        <div class="other" onclick="otherPlayer2()">Other</div>
+                        <div class="serveIndicator"><div class="left-dot"></div><div class="right-dot"></div><div class="side">R</div></div>
+                    </div>
+
+                    <div id="speechRecognitionBox">"Point Michael"</div>
+                    <div id="undoBox"></div>
+                    <div id="undoText">Undo</div>
+                    <div id="endMarker"></div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

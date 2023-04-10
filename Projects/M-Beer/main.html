@@ -1,0 +1,25 @@
+<!DOCTYPE HTML>
+
+<html>
+    <head>
+      <link rel="stylesheet" type="text/css" href="styles.css">
+      <script src="AI.js"></script>
+    </head>
+    <body onload="onload()">
+        <div id="main">
+          <div id="playArea">
+          </div>
+          <div id="console">
+            <button onclick="runTrain()">TRAIN!</button>
+            <input id="timesInput" type="text" placeholder="500" value="500"/>
+            <div>
+              <input type="checkbox" id="style" name="style" onchange="changeDisplay()" checked>
+              <label for="style">Directional Display</label>
+            </div>
+            <button onclick="reset()" id="reset">Reset</button>
+          </div>
+          <div id="infoBox">
+          </div>
+        </div>
+    </body>
+</html>

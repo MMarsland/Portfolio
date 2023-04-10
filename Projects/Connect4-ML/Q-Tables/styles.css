@@ -1,0 +1,107 @@
+html, body
+{
+    padding: 0;
+    margin: 0;
+    height: 100%;
+    width: 100%;
+}
+#main
+{
+    position: relative;
+    display: flex;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    justify-content: center;
+    min-width: 500px;
+    cursor: pointer;
+    flex-direction: column;
+}
+
+#home
+{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    justify-content: center;
+    min-width: 500px;
+}
+
+
+
+
+
+#viewNN
+{
+    position: relative;
+    display: none;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    justify-content: center;
+    min-width: 500px;
+    cursor: pointer;
+    flex-direction: column;
+}
+
+#representationOfNN {
+  font-size: 12px;
+  overflow-x: auto;
+}
+
+#infoArea {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  min-width: 500px;
+}
+
+#viewNNButtons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#playArea {
+  display: flex;
+  height: 600px;
+  width: 700px;
+  align-items: center;
+  flex-direction: row;
+  background: gray;
+  font-size:70px;
+  justify-content: center;
+  border: 1px solid red;
+  cursor: pointer;
+}
+
+#nextTurn {
+  height:50px;
+  width: 200px;
+  color: black;
+}
+
+.column {
+    height:600px;
+    width:100px;
+}
+
+.square {
+  height:100px;
+  width:100px;
+  box-sizing: border-box;
+  border: 1px solid red;
+}
+
+.blue {
+  background: blue;
+}
+
+.yellow {
+  background: yellow;
+}

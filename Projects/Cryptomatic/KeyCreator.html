@@ -1,0 +1,292 @@
+<!--
+    Checks a given file for missing symbols and can add them if needed. For use with the Cryptomatic!
+
+    @author Michael Marsland
+    @version Dec 28th, 2018
+-->
+
+<!-- Version 4.1 -->
+
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <style>
+            body {
+                font-family: "Open sans", "Segoe UI", "Segoe WP", Helvetica, Arial, sans-serif;
+                color: #7F8C9A;
+                background: #FCFDFD;
+            }
+            #wrapper
+            {
+                width: 100%;
+            }
+
+            #inputText {
+                width: 600px;
+                height: 120px;
+                border: 3px solid #cccccc;
+                padding: 5px;
+                font-family: Tahoma, sans-serif;
+                background-position: bottom right;
+                background-repeat: no-repeat;
+            }
+
+            #checkButton {
+                background-color: #34495E;
+                border: none;
+                color: white;
+                padding: 5px 12px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 16px;
+                margin-top: 10px;
+                font-family: "Palatino Linotype";
+                border: 0px dashed #39D2B4;
+                border-radius: 4px;
+            }
+
+            #addSymbolsButton {
+                background-color: green;
+                border: none;
+                color: white;
+                padding: 5px 12px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 16px;
+                margin-top: 10px;
+                font-family: "Palatino Linotype";
+                border: 0px dashed #39D2B4;
+                border-radius: 4px;
+            }
+
+            #copyAllButton {
+                background-color: #39D2B4;
+                border: none;
+                display: none;
+                color: white;
+                padding: 3px 7px;
+                text-align: center;
+                text-decoration: none;
+                font-size: 14px;
+                margin-top: 10px;
+                display: inline-block;
+            }
+
+            #downloadFileButton {
+                background-color: #39D2B4;
+                border: none;
+                display: none;
+                color: white;
+                padding: 3px 7px;
+                text-align: center;
+                text-decoration: none;
+                font-size: 14px;
+                margin-top: 10px;
+                display: inline-block;
+            }
+
+            #outputText
+            {
+                word-wrap: break-word;
+                white-space: pre-wrap;
+            }
+
+            .input-file-container {
+                position: relative;
+                width: 200px;
+            }
+
+            .js .input-file-trigger {
+                display: block;
+                padding: 14px 45px;
+                background: #39D2B4;
+                color: #fff;
+                transition: all 0.3s;
+                font-size: 1em;
+                cursor: pointer;
+            }
+
+            .js .input-file {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 200px;
+                opacity: 0;
+                padding: 14px 0;
+                cursor: pointer;
+            }
+
+            .js .input-file:hover + .input-file-trigger,
+            .js .input-file-trigger:hover {
+                background: #34495E;
+                color: #39D2B4;
+            }
+
+            .file-return {
+                margin: 0;
+                margin-top: 5px;
+                margin-bottom: 10px;
+            }
+
+            .js .file-return {
+                font-style: italic;
+                font-size: .9em;
+                font-weight: bold;
+            }
+
+            .js .file-return:not(:empty):before {
+                content: "Current Key: ";
+                font-style: normal;
+                font-weight: normal;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="wrapper">
+            <div id="inputArea">
+                <textarea name="styled-textarea" id="inputText" onfocus="setbg('#39d2b407');" onblur="setbg('white')"></textarea>
+            </div>
+            <button id="checkButton" onclick="checkKey(true)"> CHECK </button>
+            <button id="addSymbolsButton" onclick="addMissingSymbols()"> Add Missing Symbols </button><br>
+            <button id="copyAllButton" onclick="copyAll()"> Copy to Clipboard </button>
+            <button id="downloadFileButton" onclick="downloadCompleteKey()"> Download Complete Key </button>
+            <div id="outputArea">
+                <p id="outputText"></p>
+            </div>
+        </div>
+
+        <script type="text/javascript">
+            var letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            var numbers = "0123456789";
+            var characters =" `~!@#$%^&*()_+-={}[]|:;'\"\\?/><,.    ";
+            var symbols = letters + numbers + characters;
+            var missingSymbols = "";
+            console.log(symbols);
+
+            function checkKey(show) {
+                var text = document.getElementById("inputText").value;
+                missingSymbols = "";
+                for (symbolIndex in symbols){
+                    if (!text.includes(symbols[symbolIndex]))
+                    {
+                        missingSymbols += symbols[symbolIndex];
+                    }
+                }
+                
+                if (show)
+                {
+                    displayMissingSymbols();
+                }
+            }
+
+            function addMissingSymbols(){
+                console.log("Adding Symbols!");
+                var key = document.getElementById("inputText").value;
+                checkKey(false);
+
+                for (symbolIndex in missingSymbols){
+                    var index = Math.floor(Math.random() * key.length);
+                    key = key.slice(0, index) + missingSymbols[symbolIndex] + key.slice(index);
+                    console.log(index);
+                }
+                
+                document.getElementById("outputText").innerText = key;
+                reassesCopyButtonVisibility();
+                reassesDownloadButtonVisibility();
+            }
+
+            function displayMissingSymbols()
+            {
+                if (missingSymbols == ""){
+                    document.getElementById("outputText").innerText = "This key is complete! Happy Encoding!";
+                    reassesDownloadButtonVisibility();
+                } else {
+                    document.getElementById("outputText").innerText = "This key is missing the following symbols:\n" + missingSymbols;
+                }
+            }
+
+            function downloadCompleteKey()
+            {
+                addMissingSymbols();
+                var key = document.getElementById("outputText").innerText;
+                download("CompleteKey.txt", key);
+            }
+        </script>
+
+        <script type="text/javascript">
+            document.querySelector("html").classList.add('js');
+
+            reassesCopyButtonVisibility();
+            reassesDownloadButtonVisibility();
+
+            function setbg(color)
+            {
+                document.getElementById("inputText").style.background = color
+            }
+
+            function reassesCopyButtonVisibility()
+            {
+                var text = document.querySelector('#outputText').innerText;
+
+                if (text == '')
+                {
+                    document.querySelector("#copyAllButton").style.display = 'none';
+                }
+                else
+                {
+                    document.querySelector("#copyAllButton").style.display = 'inline-block';
+                }
+            }
+
+            function reassesDownloadButtonVisibility()
+            {
+                var text = document.querySelector('#outputText').innerText;
+
+                if (text == '')
+                {
+                    document.querySelector("#downloadFileButton").style.display = 'none';
+                }
+                else
+                {
+                    document.querySelector("#downloadFileButton").style.display = 'inline-block';
+                }
+            }
+
+            function copyAll()
+            {
+                const el = document.createElement('input');  // Create a <textarea> element
+                el.value = document.querySelector('#outputText').innerText;                                 // Set its value to the string that you want copied
+                el.setAttribute('readonly', '');                // Make it readonly to be tamper-proof
+                el.style.position = 'absolute';
+                el.style.left = '-9999px';                      // Move outside the screen to make it invisible
+                document.body.appendChild(el);                  // Append the <textarea> element to the HTML document
+                const selected =
+                   document.getSelection().rangeCount > 0        // Check if there is any content selected previously
+                     ? document.getSelection().getRangeAt(0)     // Store selection if found
+                     : false;                                    // Mark as false to know no selection existed before
+                el.select();                                    // Select the <textarea> content
+                document.execCommand('copy');                   // Copy - only works as a result of a user action (e.g. click events)
+                document.body.removeChild(el);                  // Remove the <textarea> element
+                if (selected) {                                 // If a selection existed before copying
+                   document.getSelection().removeAllRanges();    // Unselect everything on the HTML document
+                   document.getSelection().addRange(selected);   // Restore the original selection
+                }
+            }
+
+            function download(filename, text) {
+                var element = document.createElement('a');
+                element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+                element.setAttribute('download', filename);
+
+                element.style.display = 'none';
+                document.body.appendChild(element);
+
+                element.click();
+
+                document.body.removeChild(element);
+                }
+        </script>
+    </body>
+</html>
