@@ -1,7 +1,7 @@
 $(function () {
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
-    if (urlParams.has('form') && urlParams.get('product') == "success") {
+    if (urlParams.has('form') && urlParams.get('form') == "success") {
         $('#success').html("<div class='alert alert-success'>");
         $('#success > .alert-success').html("<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;")
                 .append("</button>");
